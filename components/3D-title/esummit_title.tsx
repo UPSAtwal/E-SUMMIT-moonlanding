@@ -50,6 +50,7 @@ const TitleThreejs = () => {
     <Canvas camera={{ position: [0, 0, 20] }} style={{width: '100%'}} id="3DtitleContent">
     	<ambientLight />
 		<pointLight position={[10, 10, 10]} />
+		<perspectiveCamera position={[0, 0, 5]} />
     	{model && <GLTFScene model={model} />}
     </Canvas>
 	);
