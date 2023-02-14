@@ -5,6 +5,9 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { GLTF, GLTFLoader as GLTFLoaderType } from 'three/examples/jsm/loaders/GLTFLoader';
 
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+
 interface GLTFSceneProps {
 	model: GLTF;
 }
@@ -24,17 +27,17 @@ const GLTFScene = ({ model }: GLTFSceneProps) => {
     <primitive
     	object={gltfRef.current}
     	position={[0, 0, 0]}
-    	scale={[1, 1, 1]}
+    	scale={[10, 10, 10]}
     />
 	);
 };
 
-const Hero = () => {
+const TitleThreejs = () => {
 	const [model, setModel] = useState<GLTF>();
 
 	useEffect(() => {
     const loader = new GLTFLoader();
-    loader.load('/public/esummit-logo-black.gltf', (gltf) => {
+    loader.load( '/esummit-logo-black.gltf' , (gltf) => {
     	setModel(gltf);
 		console.log("Loaded GLTF: ")
 		console.log(gltf);
@@ -44,8 +47,9 @@ const Hero = () => {
 	}, []);
 
 	return (
-    <Canvas camera={{ position: [0, 0, 5] }}>
+    <Canvas camera={{ position: [0, 0, 20] }} style={{width: '100%'}} id="3DtitleContent">
     	<ambientLight />
+		<pointLight position={[10, 10, 10]} />
     	{model && <GLTFScene model={model} />}
     </Canvas>
 	);
