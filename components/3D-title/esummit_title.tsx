@@ -1,59 +1,52 @@
 import * as THREE from 'three';
-import * as React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { GLTF, GLTFLoader as GLTFLoaderType } from 'three/examples/jsm/loaders/GLTFLoader';
-
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from '@react-three/drei';
 
 interface GLTFSceneProps {
 	model: GLTF;
 }
 
-
-const GLTFScene = ({ model }: GLTFSceneProps) => {
-	const { camera } = useThree();
+function GLTFScene({ model }: GLTFSceneProps) {
 	const gltfRef = useRef<GLTF>(model);
 
 	useFrame((state, delta) => {
     if (gltfRef.current) {
-    //   gltfRef.current.rotation.y += 0.01 * delta;
+      // gltfRef.current.rotation.y += 0.01 * delta;
     }
 	});
 
 	return (
-    <primitive
-    	object={gltfRef.current}
-    	position={[0, 0, 0]}
-    	scale={[10, 10, 10]}
-    />
+    <primitive object={gltfRef.current.scene} position={[0, 0, 0]} scale={[10, 10, 10]} />
 	);
-};
+}
 
-const TitleThreejs = () => {
+function TitleThreejs() {
 	const [model, setModel] = useState<GLTF>();
 
 	useEffect(() => {
     const loader = new GLTFLoader();
-    loader.load( '/esummit-logo-black.gltf' , (gltf) => {
+    loader.load('/esummit-logo-black.gltf', (gltf) => {
     	setModel(gltf);
-		console.log("Loaded GLTF: ")
-		console.log(gltf);
-    }, undefined, (error) => {
+    	console.log('Loaded GLTF:');
+    	console.log(gltf);
+    }, (xhr) => {
+      console.log((xhr.loaded / xhr.total) * 100 + '% model loaded');
+    }, (error) => {
     	console.error(error);
     });
 	}, []);
 
-	return (
-    <Canvas camera={{ position: [0, 0, 20] }} style={{width: '100%'}} id="3DtitleContent">
+return (
+    <Canvas style={{ width: '100%', height: '100%' }}>
     	<ambientLight />
-		<pointLight position={[10, 10, 10]} />
-		<perspectiveCamera position={[0, 0, 5]} />
+    	<pointLight position={[0, 0, 0]} />
+    	<OrbitControls />
     	{model && <GLTFScene model={model} />}
     </Canvas>
 	);
-};
+}
 
 export default TitleThreejs;
