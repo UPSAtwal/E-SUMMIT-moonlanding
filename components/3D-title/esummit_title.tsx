@@ -5,24 +5,26 @@ import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, OrthographicCamera } from '@react-three/drei';
+
 
 //strictly tell the type of the object in typescript
 interface GLTFSceneProps {
 	model: GLTF;
 }
 
+
 function GLTFScene({ model }: GLTFSceneProps) {
 	const gltfRef = useRef<GLTF>(model);
 
 	useFrame((state, delta) => {
     if (gltfRef.current) {
-		gltfRef.current.scene.rotation.z += 1 * delta;
+		gltfRef.current.scene.rotation.z += 0.1 * delta;
 	}
 	});
 
 	return (
-    <primitive object={gltfRef.current.scene} position={[5, 0, 0.5]} scale={[50, 50, 50]} rotation={[Math.PI / 2, 0, 0]} />
+    <primitive object={gltfRef.current.scene} position={[-14, -4, -4]} scale={[50, 50, 50]} rotation={[Math.PI / 2, 0, 0]} />
 	);
 }
 
@@ -45,10 +47,6 @@ function TitleThreejs() {
 
 return (
     <Canvas style={{ width: '100%', height: '100%' }} id="3DtitleContent">
-    {/* <perspectiveCamera position={[0, 10, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
-	  {/* <ambientLight /> */}
-    	{/* <pointLight position={[0, 0, 0]} /> */}
-    	{/* <OrbitControls /> */}
     	{model && <GLTFScene model={model} />}
     </Canvas>
 	);
