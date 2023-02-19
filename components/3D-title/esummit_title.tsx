@@ -17,8 +17,8 @@ function GLTFScene({ model }: GLTFSceneProps) {
 
 	useFrame((state, delta) => {
     if (gltfRef.current) {
-      // gltfRef.current.rotation.y += 0.01 * delta;
-    }
+		gltfRef.current.scene.rotation.y += 0.01 * delta;
+	}
 	});
 
 	return (
@@ -42,12 +42,13 @@ function TitleThreejs() {
     });
 	}, []);
 
+
 return (
     <Canvas style={{ width: '100%', height: '100%' }} id="3DtitleContent">
 	{/* <perspectiveCamera position={[0, 0, 0]} /> */}
     	{/* <ambientLight /> */}
     	{/* <pointLight position={[0, 0, 0]} /> */}
-    	<OrbitControls />
+    	{/* <OrbitControls /> */}
     	{model && <GLTFScene model={model} />}
     </Canvas>
 	);
