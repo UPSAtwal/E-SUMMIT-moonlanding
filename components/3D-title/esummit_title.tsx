@@ -17,12 +17,12 @@ function GLTFScene({ model }: GLTFSceneProps) {
 
 	useFrame((state, delta) => {
     if (gltfRef.current) {
-		gltfRef.current.scene.rotation.y += 0.01 * delta;
+		gltfRef.current.scene.rotation.z += 1 * delta;
 	}
 	});
 
 	return (
-    <primitive object={gltfRef.current.scene} position={[0, 0, 5]} scale={[11, 11, 11]} />
+    <primitive object={gltfRef.current.scene} position={[5, 0, 0.5]} scale={[50, 50, 50]} rotation={[Math.PI / 2, 0, 0]} />
 	);
 }
 
@@ -45,8 +45,8 @@ function TitleThreejs() {
 
 return (
     <Canvas style={{ width: '100%', height: '100%' }} id="3DtitleContent">
-	{/* <perspectiveCamera position={[0, 0, 0]} /> */}
-    	{/* <ambientLight /> */}
+    {/* <perspectiveCamera position={[0, 10, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
+	  {/* <ambientLight /> */}
     	{/* <pointLight position={[0, 0, 0]} /> */}
     	{/* <OrbitControls /> */}
     	{model && <GLTFScene model={model} />}
