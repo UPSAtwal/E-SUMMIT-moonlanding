@@ -5,7 +5,8 @@ import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls, OrthographicCamera } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
+import styles from '../../styles/Header.module.css'; //for HERO if webgl not available
 
 
 //strictly tell the type of the object in typescript
@@ -30,9 +31,19 @@ function GLTFScene({ model }: GLTFSceneProps) {
 
 function TitleThreejs() {
 	const [model, setModel] = useState<GLTF>();
+	const [webGLAvailable, setWebGLAvailable] = useState(true);
 
 	useEffect(() => {
     const loader = new GLTFLoader();
+	const canvas = document.createElement('canvas');
+	const context = canvas.getContext('webgl');
+
+	if (!context) {
+		setWebGLAvailable(false);
+		console.log('WebGL not available');
+	}
+
+
     loader.load('/esummit-logo-black.gltf', (gltf) => {
     	setModel(gltf);
     	console.log('Loaded GLTF:');
@@ -44,11 +55,19 @@ function TitleThreejs() {
     });
 	}, []);
 
+	if (!webGLAvailable) {
+		return <h1 className={`${styles.main}`}>E-SUMMIT &apos;23</h1>;
+	}
 
 return (
-    <Canvas style={{ width: '100%', height: '100%' }} id="3DtitleContent">
-    	{model && <GLTFScene model={model} />}
+	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+    <Canvas orthographic camera={{ zoom: 20 }} style={{ width: '100%', height: '100%' }} id="3DtitleContent">
+        <ambientLight />
+        <pointLight position={[0, 0, 0]} />
+		{/* <OrbitControls /> */}
+        {model && <GLTFScene model={model} />}
     </Canvas>
+    </div>
 	);
 }
 
