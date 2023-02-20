@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from '@react-three/drei';
@@ -61,12 +62,18 @@ function TitleThreejs() {
 
 return (
 	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
-    <Canvas orthographic camera={{ zoom: 20 }} style={{ width: '100%', height: '100%' }} id="3DtitleContent">
-        <ambientLight />
-        <pointLight position={[0, 0, 0]} />
-		{/* <OrbitControls /> */}
-        {model && <GLTFScene model={model} />}
-    </Canvas>
+
+    	<Canvas orthographic camera={{ zoom: 20 }} style={{ width: '100%', height: '100%' }} id="3DtitleContent">
+			<EffectComposer>
+			<Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+			</EffectComposer>
+
+        	<ambientLight />
+        	<pointLight position={[0, 0, 0]} />
+			{/* <OrbitControls /> */}
+        	{model && <GLTFScene model={model} />}
+    	</Canvas>
+
     </div>
 	);
 }
