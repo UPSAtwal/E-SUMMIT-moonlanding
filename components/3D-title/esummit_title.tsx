@@ -61,11 +61,11 @@ function TitleThreejs() {
 	}
 
 return (
-	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '30vh' }}>
+	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
 
-    	<Canvas orthographic camera={{ zoom: 30 }} style={{ width: '100%', height: '100%' }} id="3DtitleContent">
+    	<Canvas orthographic camera={{ zoom: 32 }} style={{ width: '100%', height: '30vh' }} id="3DtitleContent">
 			<EffectComposer>
-			<Bloom luminanceThreshold={0} luminanceSmoothing={0.95} height={300} />
+			{/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.95} height={300} /> */}
 			<Vignette eskil={false} offset={0.1} darkness={1.1} />
 
 			</EffectComposer>
